@@ -69,12 +69,13 @@ var
 
 {$I about                       }   { Game About/Credits            }
 {$I functions                   }   { various routines, old habbits }
+{$I stats                       }   { player stats                  }
 {$I titledisplay                }   { title related                 }
 {$I newplayer                   }   { signing up new players        }
 {$I endgameroll                 }   { end game screen/credits       }
 {$I shownews                    }   { news page der!                }
-{$I displayStats                }   { players stats                 }
 {$I town                        }   { all the fun is here           }
+
 
 procedure playGame();
 begin

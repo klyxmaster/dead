@@ -5,10 +5,7 @@ var
     
 begin
      
-    DoorClrScr;
-    DoorGotoXY(1,2);
-    DoorWriteC('`8...-`7--=] `% AshTown Local News `7[=--`8-...');
-    DoorWriteLn;
+    DoorDisplayFile('scrnz\news.ans');
     if FileExists('news.txt') then begin
         try
             assignFile(newsFile, 'news.txt');
