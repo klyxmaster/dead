@@ -1,7 +1,6 @@
 procedure town();
 begin
-    DoorClrScr;
-    header('Town of AshTown');
+    DoorDisplayFile('scrnz\ASHTOWN.ANS');
     paused;
     halt;
 end;

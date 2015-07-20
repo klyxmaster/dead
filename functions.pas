@@ -69,8 +69,7 @@ var
     TAnsi           : TextFile;
     aline           : ansistring;
     s: widestring;
-begin
-    initddansi;
+begin    
     if FileExists('scrnz\' + AnsiScreenFile + '.ans') then begin
         assignFile(TAnsi, 'scrnz\' + AnsiScreenFile + '.ans');
         reset(TAnsi);    

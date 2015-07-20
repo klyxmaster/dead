@@ -31,14 +31,12 @@ uses
     Door,    
     VideoUtils,
     MD5,
-    StringUtils,
-    Ansi,
+    StringUtils,   
     Classes,
     Crt,
     StrUtils,    
     INIFiles,           { working with ini files                        }    
-    xCrypt,             { some encryption - not public                  }
-    ansi2015,           { ansi write for 2015+ 4use with RMDOOR         }
+    xCrypt,             { some encryption - not public                  }   
     SysUtils;
 
 const
