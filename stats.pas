@@ -1,0 +1,3 @@
+procedure stats();
+begin
+end;

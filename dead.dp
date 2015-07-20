@@ -1,0 +1,13 @@
+[Project]
+FileName=F:\X\TP7_PROJECTS\dead\dead.dp
+Name=dead
+MainUnit=Untitled1
+UnitCount=2
+ResFiles=F:\X\TP7_PROJECTS\dead\rsrc.rc
+NoConsole=0
+IsDll=0
+Icon=C:\Dev-Pas\bin\Mainicon.ico
+[Unit1]
+FileName=Untitled1
+[Unit2]
+FileName=F:\X\TP7_PROJECTS\dead\about.pas

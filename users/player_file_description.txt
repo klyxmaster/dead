@@ -1,0 +1,35 @@
+I'll update this later, it will be the descriptions of the player ini
+files and what they are for.
+
+Game uses the template.ini to work from. Change this file to your liking.
+NOTE:
+Until it is out of alpha/beta, these variables may change, so what you
+change here, may not reflect on older players. I will try to make sure
+that does not happen.
+
+DEFINITIONS
+- These are mixed as most of these are in the GAMESETTINGS.INI file.
+
+o classId
+    There are 3 types of classes in DEAD:
+        - Tank(1),
+        - DPS(2),
+        - Healer(3)
+    These are the most basic you'll find in most MMO's, and I follow
+    the KISS format.
+    
+o classChance / classChanceOrig
+    This is STATIC. Do not change. All players start with a 10% chance
+    of success when using their special ability. Upon a successful
+    attack, it in increased by "classInc". classChance is the running
+    total, classChanceOrig is what they start with each classLevel.
+
+o classXp
+    Players get 1pt per successful hit on a Zombie (totalZKills). When
+    players reach the "classLevelUp" threshold, they will get a new
+    skill and start over with "classChanceOrig"
+
+o classLevelUp
+    How much xp per class level. see "classLevelUp.txt" for xp. change
+    as needed.
+    
