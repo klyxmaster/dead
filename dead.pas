@@ -28,7 +28,8 @@ program dead;
 {$mode objfpc}{$H+}
 {$CODEPAGE UTF8} 
 uses 
-    Door,    
+    Door,
+    Dos,    
     VideoUtils,
     MD5,
     StringUtils,   
@@ -46,21 +47,63 @@ const
     { Do not mess with this. Doing so, and most the app will fail       }
     CryptKey    = 'CKb2#kKptS#xA4WzMJ!vHe4Fr7&67nc8';
 
+// have not decided which way to store data yet...      
+type
+    tPlayer = record
+        username        : String[50];
+        sex             : byte;
+        money           : longint;  { arbitrary - call it anything  }
+        bank            : longint;
+        classid         : byte;
+        classlevel      : integer;
+        classxp         : longint;
+        weaponid        : integer;
+        armorid         : integer;  { not "armour" = love           }
+        attack          : integer;
+        defense         : integer;
+        hp              : integer;
+        maxhp           : integer;
+        totalzkills     : integer;  { total zombie kills            }
+        xp              : longint;
+        level           : integer;
+        alive           : byte;
+        online          : byte;
+        seentrainer     : byte;
+        seenboss        : byte;
+        playerfights    : integer;  { playerfights left             }
+        zkperday        : integer;  { zombie kills per day left     }
+        foundsewer      : boolean;  { hidden outpost                }
+        mingled         : boolean;  { interacted with patrons       }
+        playedjukebox   : boolean;  { sometimes can be motivational }
+    end;
+
+    tGameSettings = record
+        sysopname       : string[50];
+        bbsname         : string[50];
+        regcode         : string[52];
+        playerfights    : integer;  { player fights allowed/day     }
+        zkperday        : integer;  { zombie kills per day          }
+        startingmoney   : integer;
+    end;
+    
+        
+
 var
 
     ch          : char;
     Alias       : String;           { remember user alias           }    
     GameOver    : Boolean;          { is player done playing        }
-    ini         : TINIFile;
-    GameIni     : TINIFile;         { used for accessing gamesettings}
+    
     GameSysop   : String;           { Name of sysop game owner      }        
     GameEncSysop: String;           { coded sysop string            }    
     Registered  : Boolean;          { Is game registered            }
     RegCode     : String;           { code found in gamesettings.ini}
-      
-   
-    
-    
+
+    GameSettings: tGameSettings;
+    player      : tPlayer;
+    playerFile  : File Of tPlayer;
+
+
 
 {
 * BREAK PROGRAM DOWN TO FILE MODULES.
@@ -100,30 +143,37 @@ begin
     ch := 'Q'; // kinda stupid here, i'll fix later
 end;
 
-BEGIN
-   
-    DoorStartUp;    
+BEGIN   
+    DoorStartUp;
+
+    // see if game has been setup
+    if not fileExists('gamesettings.dat') then begin
+        DoorLWrite('`5Cannot start game. Please inform sysop to finish installing', True);
+        paused;
+        DoorShutDown;
+        exit;
+    end else getGameSettings;
+
+    
     CursorHide;    
     // TURN ON LORD WRITE CODES "`"
+    // **TODO: REMOVE ALL THE DOORLWRITE since sethwrite works as well
     DoorSession.SethWrite := true;
 
     GameOver := False;
     // Who is on
     Alias := DoorDropInfo.Alias;
     // Load up ini file location of user
-    ini     := TINIFile.Create('users\' + Alias + '.ini');
+    //ini     := TINIFile.Create('users\' + Alias + '.ini');
     // Load up game settings   
-    GameIni := TINIFile.Create('GAMESETTINGS.INI');
+    //GameIni := TINIFile.Create('GAMESETTINGS.INI');
    
 
     // Check if registered
     Registered  := False;
-    GameSysop   := GameIni.ReadString('gamesettings','sysop','');    
-    RegCode     := GameIni.ReadString('gamesettings','regcode','');
-    
-    
-    GameEncSysop := encode(GameSysop , CryptKey);
-    
+    GameSysop   := GameSettings.sysopname;   
+    RegCode     := GameSettings.regcode;        
+    GameEncSysop := encode(GameSysop , CryptKey);    
     if RegCode = GameEncSysop then Registered := True;
     
     repeat
@@ -141,8 +191,8 @@ BEGIN
                     * and send them to playGame, other send them
                     * straight there.
                     * }
-                    if FileExists('users/' + DoorDropInfo.Alias + '.ini') then
-                        playGame
+                    if playerExists(DoorDropInfo.Alias) then                        
+                        playGame                        
                     else begin
                         newplayer;
                         playGame;

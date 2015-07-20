@@ -9,10 +9,9 @@ begin
     DoorWriteC('`7email`8: `$klyxmaster@gmail.com');
     DoorGotoXY(1,4);
     DoorWriteC('`7Thank you for playing...');
-    DoorGotoXY(1,8);
-    DoorWriteC('`7Closing Game Door. One Moment...');                    
+                   
                     
-    countDownDelay(5,57,8);
-    GameOver := True;
-    DoorGotoXY(1,15);
+    paused;
+    DoorShutDown;
+    halt;
 end;

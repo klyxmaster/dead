@@ -49,7 +49,7 @@ begin
   MemBuffer.Free
 end;
 
-{ lazy, using html markup method LOL }
+{ options higlighter. TODO: add option for custom color }
 procedure li(HLetter, txtOption: String);
 begin
     DoorLWrite('`7[`$' + HLetter + '`7]`4' + txtOption, True);
@@ -63,7 +63,7 @@ begin
     DoorWriteC(Text);
 end;
 
-// DRAWS ANSI SCREEN
+// LEGACY, WAS ADDED TO RMDOOR VIA AUTHOR
 procedure showAnsi(AnsiScreenFile: String);
 var
     TAnsi           : TextFile;
@@ -81,3 +81,51 @@ begin
     end;
 end;
 
+function playerExists(name: string): boolean;
+var
+    playerFile  : File of tPlayer;
+    playerRec   : tPlayer;
+    Found       : Boolean;
+begin
+    Found := False;
+    Assign(playerFile, 'users.dat');
+    {$I-}Reset(playerFile);{$I+}
+    
+    try    
+        repeat
+            Read(playerFile, playerRec);
+            if UpperCase(playerRec.username) = UpperCase(name) then
+            begin
+                Found := True;
+            end;
+        until eof(playerFile);
+    except
+        on E:Exception do
+        begin
+            DoorWrite('`4*** Problem searching users ***');
+            DoorShutDown;
+        end;
+    end;
+    player := playerRec;
+    playerExists := Found;
+   
+end;
+
+procedure getPlayer(name: string);
+begin
+end;
+
+procedure savePlayer(name:string);
+begin
+end;
+
+procedure getGameSettings();
+var
+    fGSFile     : File Of tGameSettings;
+begin
+    Assign(fGSFile,'gamesettings.dat');
+    Reset(fGSFile);
+    Seek(fGSFile, 0);
+    Read(fGSFile, GameSettings);
+    close(fGSFile);    
+end;

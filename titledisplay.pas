@@ -14,7 +14,7 @@ begin
 
     if Registered then begin
         DoorWriteC('`4DEAD `2is registered to `0' + GameSysop);DoorGotoXY(5, 23);
-        DoorWriteC('`2of `0' + GameIni.ReadString('gamesettings','bbsName',''));DoorGotoXY(5, 24);       
+        DoorWriteC('`2of `0' + GameSettings.bbsname);DoorGotoXY(5, 24);       
     end
         
     else begin        
