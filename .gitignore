@@ -1,7 +1,9 @@
 geany_run_script.bat
+geany*.*
 xcrypt.pas
 keygen.pas
 Desktop.ini
+*.geany
 *.komodotools
 *.komodoproject
 *.dat
